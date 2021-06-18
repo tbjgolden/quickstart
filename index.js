@@ -1,31 +1,28 @@
 const enquirer = require('enquirer')
-
-const configMode = true
-
-const confirm = async (q) => {
-  return (await (enquirer.prompt([
-    {
-      type: 'confirm',
-      message: q,
-      name: '_'
-    }
-  ])))._;
-}
+const os = require('os')
+const fs = require('fs-extra')
+const path = require('path')
+//
+const { confirm, commandExists, install } = require('./utils')
+//
+global.OS = [os.platform(), os.arch()]
 
 const run = async () => {
-  let installElvish = false
+  try {
+    await fs.ensureDir(path.join(__dirname, "tmp"))
 
-  if (configMode) {
-    // Install elvish?
-    installElvish = await confirm('Install elvish?');
+    if (!(await commandExists("elvish"))) {
+      console.log("Installing elvish...")
+      await install('elvish')
+      console.log("Installed elvish")
+    }
+  } catch (err) {
+    console.error(err)
   }
 
-  console.log({ installElvish })
-
-  if (installElvish) {
-    console.log("Installing elvish...")
-    console.log("Installed elvish")
-  }
+  console.log("Cleaning up...")
+  await fs.remove(path.join(__dirname, "tmp"))
+  console.log("Done")
 }
 
 run()
