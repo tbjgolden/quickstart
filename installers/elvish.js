@@ -1,5 +1,7 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const download = require('download');
+
+const { installBinary } = require("./utils")
 
 module.exports = async () => {
   const platform = ({
@@ -21,13 +23,10 @@ module.exports = async () => {
   ])
 
   if (VALID_ARCHS.has(downloadFrag)) {
-    // await download(`https://dl.elv.sh/${downloadFrag}/elvish-HEAD.tar.gz`, 'test', {
-    //   extract: true
-    // });
-    // fs.writeFileSync('dist/foo.jpg', await download('http://unicorn.com/foo.jpg'));
-    // download('unicorn.com/foo.jpg').pipe(fs.createWriteStream('dist/foo.jpg'));
-
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await download(`https://dl.elv.sh/${downloadFrag}/elvish-HEAD.tar.gz`, 'tmp', {
+      extract: true
+    });
+    await installBinary('elvish-HEAD', "elvish")
   } else {
     throw new Error("Invalid platform/arch")
   }

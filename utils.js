@@ -19,7 +19,9 @@ const confirm = async (q) => {
 }
 
 const install = async (program) => {
-  return await (require(`./installers/${program}`)())
+  console.log(`Installing ${program}...`)
+  await (require(`./installers/${program}`)())
+  console.log(`Installed ${program}`)
 }
 
 module.exports = {

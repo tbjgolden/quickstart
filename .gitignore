@@ -1,2 +1,9 @@
+# deps
 node_modules
+
+# temp working directory for scripts
 tmp
+
+# where packages are installed
+bin
+lib
