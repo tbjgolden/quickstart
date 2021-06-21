@@ -24,7 +24,7 @@ module.exports = async () => {
 
   if (VALID_ARCHS.has(downloadFrag)) {
     let url = null
-    try {
+    try { 
       await getLatestMatchingUrl(
         'VSCodium/vscodium',
         `VSCodium-${downloadFrag}`
@@ -53,8 +53,6 @@ module.exports = async () => {
       });
       await installLib("codium")
     }
-
-    console.log("TODO: codium opens on macos, config")
   } else {
     throw new Error("Invalid platform/arch")
   }
